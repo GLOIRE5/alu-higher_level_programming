@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-""" fetch 'http://0.0.0.0:5050/status' """
+"""Fetch 'http://0.0.0.0:5050/status' instead of 'https://intranet.hbtn.io/status'"""
 import urllib.request
 
+
 if __name__ == "__main__":
-    # Corrected URL with 'status' instead of 'statu'
-    url = "http://0.0.0.0:5050/status"
-    
+    url = "http://0.0.0.0:5050/status"  # Corrected URL to 'http://0.0.0.0:5050/status'
     try:
         with urllib.request.urlopen(url) as response:
             body = response.read()
