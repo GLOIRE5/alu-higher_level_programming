@@ -2,44 +2,31 @@
 import requests
 import sys
 
-def get_commits(repo, owner):
-    url = f"https://api.github.com/repos/{owner}/{repo}/commits"
-    commits = []
-    page = 1
-    while len(commits) < 10:
-        response = requests.get(url, params={'page': page, 'per_page': 10})
-        if response.status_code != 200:
-            print("Failed to fetch data")
-            return []
-        
-        data = response.json()
-        if not data:  # No more commits available
-            break
+def get_commits(repo_name, owner_name):
+  """Fetches and prints 10 commits from a GitHub repository.
 
-        for commit in data:
-            sha = commit['sha']
-            author_name = commit['commit']['author']['name']
-            commits.append(f"{sha}: {author_name}")
-        
-        page += 1  # Move to the next page if necessary
+  Args:
+    repo_name: The name of the repository.
+    owner_name: The owner of the repository.
+  """
+  url = f"https://api.github.com/repos/{owner_name}/{repo_name}/commits"
+  headers = {'Accept': 'application/json'}
+  params = {'per_page': 10}
 
-    return commits[:10]  # Ensure only the latest 10 commits are returned
+  response = requests.get(url, headers=headers, params=params)
+  response.raise_for_status()
 
-def main():
-    # Taking arguments from the command line
-    if len(sys.argv) != 3:
-        print("Usage: python 100-github_commits.py <repo> <owner>")
-        sys.exit(1)
-    
-    repo = sys.argv[1]
-    owner = sys.argv[2]
-    
-    commits = get_commits(repo, owner)
-    
-    if commits:
-        for commit in commits:
-            print(commit)
+  for commit in response.json():
+    sha = commit['sha']
+    author_name = commit['commit']['author']['name']
+    print(f"{sha}: {author_name}")
 
 if __name__ == "__main__":
-    main()
+  if len(sys.argv) != 3:
+    print("Usage: python 100-github_commits.py <repo_name> <owner_name>")
+    sys.exit(1)
 
+  repo_name = sys.argv[1]
+  owner_name = sys.argv[2]
+
+  get_commits(repo_name, owner_name)
