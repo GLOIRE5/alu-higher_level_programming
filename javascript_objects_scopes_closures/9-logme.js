@@ -1,8 +1,8 @@
 #!/usr/bin/node
 
-let count = 0;  
-
 exports.logMe = function (item) {
-  console.log(` ${count++}: ${item} `);
-}
-
+  if (!this.count) {
+    this.count = 0;
+  }
+  console.log(`${this.count++}: ${item}`);
+};
