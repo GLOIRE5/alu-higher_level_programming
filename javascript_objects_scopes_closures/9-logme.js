@@ -1,4 +1,3 @@
-
 #!/usr/bin/node
 let callCount = 0;
 
