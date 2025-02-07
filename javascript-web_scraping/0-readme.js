@@ -1,9 +1,12 @@
-request.get(`https://swapi-api.alx-tools.com/api/films/${id}`, function (err, res) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(res.body); 
-    console.log(JSON.parse(res.body).title);  
+#!/usr/bin/node
+
+const fs = require('fs');
+const file = process.argv[2];
+const write_ = process.argv[3];
+
+fs.writeFile(file, write_, 'utf8', function (error) {
+  if (error) {
+    console.log(error);
   }
 });
 
